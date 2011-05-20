@@ -1,5 +1,6 @@
 from django.utils import unittest
 from django.test.client import Client
+from django.template import Template, RequestContext
 
 from core.models import Person
 
@@ -23,3 +24,12 @@ class ModelsTest(unittest.TestCase):
         self.assertEqual(person.name, 'name')
         self.assertEqual(person.surname, 'sur')
         self.assertEqual(person.bio, 'bio')
+
+
+class ContextTest(unittest.TestCase):
+    def test_context(self):
+        client = Client()
+        resp = client.get('/')
+        debug_template = Template('{{settings.DEBUG}}')
+        debug = debug_template.render(RequestContext(resp.request))
+        self.assertNotEqual(len(debug), 0)

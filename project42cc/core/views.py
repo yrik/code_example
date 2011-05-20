@@ -8,4 +8,3 @@ def index(request):
     persons = Person.objects.filter(pk=1)
     return render_to_response('index.html', {'persons': persons},
                                 context_instance=RequestContext(request))
-
