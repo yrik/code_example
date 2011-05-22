@@ -1,6 +1,6 @@
 from django.utils import unittest
 from django.test.client import Client
-from django.template import Template, RequestContext
+from django.template import Template, Context, RequestContext
 
 from core.models import Person
 
@@ -26,10 +26,21 @@ class ModelsTest(unittest.TestCase):
         self.assertEqual(person.bio, 'bio')
 
 
-class ContextTest(unittest.TestCase):
-    def test_context(self):
+class TemplateTagTest(unittest.TestCase):
+    def test_edit_tag(self):
         client = Client()
         resp = client.get('/')
         debug_template = Template('{{settings.DEBUG}}')
         debug = debug_template.render(RequestContext(resp.request))
         self.assertNotEqual(len(debug), 0)
+
+
+class ContextTest(unittest.TestCase):
+    def test_context(self):
+        person = Person(name='Name', surname='Surname')
+        person.save()
+        person = Person.objects.get(pk=1)
+        template = Template('{% load customtags %}{% edit_link person %}')
+        context = Context({'person': person})
+        edit_link = template.render(context)
+        self.assertNotEqual(len(edit_link), 0)
