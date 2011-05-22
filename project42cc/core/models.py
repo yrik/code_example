@@ -1,3 +1,4 @@
+from django.db.models.signals import post_save, post_delete
 from django.db import models
 
 
@@ -21,3 +22,27 @@ class Person(models.Model):
 
     def __unicode__(self):
         return self.name + ' ' + self.surname
+
+
+class Log(models.Model):
+    content = models.TextField(null=True, blank=True)
+    date = models.DateTimeField(null=True, blank=True, auto_now=True)
+
+    def __unicode__(self):
+        return '%s at %s' % (self.content, self.date)
+
+
+def delete_callback(sender, instance, signal, *args, **kwargs):
+    l = Log(content="object '%s' is deleted" % instance)
+    l.save()
+
+def save_callback(sender, instance, signal, *args, **kwargs):
+    if sender != Log:
+        if kwargs.get('created', True):
+            l = Log(content="object '%s' is created" % instance)
+        else:
+            l = Log(content="object '%s' is edited" % instance)
+        l.save()
+
+post_save.connect(save_callback)
+post_delete.connect(delete_callback)
