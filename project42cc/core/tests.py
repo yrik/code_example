@@ -4,7 +4,7 @@ from django.utils import unittest
 from django.test.client import Client
 from django.template import Template, Context, RequestContext
 
-from core.models import Person
+from core.models import Person, Log
 
 
 class ViewsTest(unittest.TestCase):
@@ -39,8 +39,7 @@ class TemplateTagTest(unittest.TestCase):
 
 class ContextTest(unittest.TestCase):
     def test_context(self):
-        person = Person(name='Name', surname='Surname')
-        person.save()
+        person = Person.objects.create(name='Name', surname='Surname')
         person = Person.objects.get(pk=1)
         template = Template('{% load customtags %}{% edit_link person %}')
         context = Context({'person': person})
@@ -53,5 +52,13 @@ class CommandTest(unittest.TestCase):
         content = StringIO()
         call_command('statistic', stdout=content)
         content.seek(0)
-        n = len(content.readlines())
-        self.failUnless(n, 5)
+        num = len(content.readlines())
+        self.failUnless(num, 5)
+
+
+class SignalTest(unittest.TestCase):
+    def test_log(self):
+        prev_count = len(Log.objects.all())
+        Person.objects.create(name='Name', surname='Surname')
+        next_count = len(Log.bjects.all())
+        self.assertNotEqual(next_count - prev_count, 0)
