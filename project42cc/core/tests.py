@@ -1,4 +1,5 @@
-from subprocess import Popen, PIPE
+from StringIO import StringIO
+from django.core.management import call_command
 from django.utils import unittest
 from django.test.client import Client
 from django.template import Template, Context, RequestContext
@@ -49,7 +50,8 @@ class ContextTest(unittest.TestCase):
 
 class CommandTest(unittest.TestCase):
     def test_min_row_count(self):
-        stdout = Popen("python manage.py statistic", shell=True,
-                 bufsize=512, stdout=PIPE).stdout
-        n = len(stdout.readlines())
+        content = StringIO()
+        call_command('statistic', stdout=content)
+        content.seek(0)
+        n = len(content.readlines())
         self.failUnless(n, 5)
