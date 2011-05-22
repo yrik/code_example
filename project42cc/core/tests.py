@@ -60,5 +60,5 @@ class SignalTest(unittest.TestCase):
     def test_log(self):
         prev_count = len(Log.objects.all())
         Person.objects.create(name='Name', surname='Surname')
-        next_count = len(Log.bjects.all())
+        next_count = len(Log.objects.all())
         self.assertNotEqual(next_count - prev_count, 0)
