@@ -5,7 +5,16 @@
     <title>Test project</title>
     <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}style.css" />
   </head>
-  <body>
+ {% load customtags %}
+    <div id="header">
+    <ul>
+        <li>42 Coffy Cups Test Assigment</li>
+        <li>{% edit_link user %}</li>
+    </ul>
+    </div>
+    <br/>
+
+ <body>
     {% block body %} 
 
     {% endblock %}

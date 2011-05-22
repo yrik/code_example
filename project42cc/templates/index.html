@@ -1,7 +1,6 @@
 {% extends 'base.html' %}
 
 {% block body %}
-
 {% for person in persons %}
     {% for name, value in person.get_fields %}
         {% if value %}

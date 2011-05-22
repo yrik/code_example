@@ -3,4 +3,11 @@ body{
     font-color:#333;
     font-size:1.2em;
 }
+#header ul{
+    list-style:none;
+}
+#header ul li {
+    display:inline;
+    margin-right:25px
+}
 
