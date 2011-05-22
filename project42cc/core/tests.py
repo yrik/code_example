@@ -1,3 +1,4 @@
+from subprocess import Popen, PIPE
 from django.utils import unittest
 from django.test.client import Client
 from django.template import Template, Context, RequestContext
@@ -44,3 +45,11 @@ class ContextTest(unittest.TestCase):
         context = Context({'person': person})
         edit_link = template.render(context)
         self.assertNotEqual(len(edit_link), 0)
+
+
+class CommandTest(unittest.TestCase):
+    def test_min_row_count(self):
+        stdout = Popen("python manage.py statistic", shell=True,
+                 bufsize=512, stdout=PIPE).stdout
+        n = len(stdout.readlines())
+        self.failUnless(n, 5)
