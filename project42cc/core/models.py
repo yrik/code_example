@@ -13,8 +13,8 @@ class Person(models.Model):
     birth_date = models.DateField(null=True, blank=True)
 
     email = models.EmailField(null=True, blank=True, max_length=250)
-    jabber = models.TextField(null=True, blank=True, max_length=250)
-    skype = models.TextField(null=True, blank=True, max_length=250)
+    jabber = models.CharField(null=True, blank=True, max_length=250)
+    skype = models.CharField(null=True, blank=True, max_length=250)
 
     def get_fields(self):
         return [(field.name, field.value_to_string(self))\
@@ -35,6 +35,7 @@ class Log(models.Model):
 def delete_callback(sender, instance, signal, *args, **kwargs):
     l = Log(content="object '%s' is deleted" % instance)
     l.save()
+
 
 def save_callback(sender, instance, signal, *args, **kwargs):
     if sender != Log:

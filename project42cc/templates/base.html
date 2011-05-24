@@ -9,7 +9,12 @@
     <div id="header">
     <ul>
         <li>42 Coffee Cups Test Assigment</li>
+        <li><a href="/">Main</a></li>
         <li>{% edit_link user %}</li>
+        <li><a href="{% url core.views.add_person %}">Add Person</a></li>
+        {% if not user.is_authenticated %}
+        <li><a href="/login/">Login</a></li>
+        {% endif %}
     </ul>
     </div>
     <br/>
