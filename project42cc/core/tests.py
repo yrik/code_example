@@ -3,6 +3,8 @@ from django.core.management import call_command
 from django.utils import unittest
 from django.test.client import Client
 from django.template import Template, Context, RequestContext
+from django.core.urlresolvers import reverse
+from django.contrib.auth.models import User
 
 from core.models import Person, Log
 
@@ -11,12 +13,40 @@ class ViewsTest(unittest.TestCase):
     def setUp(self):
         # Every test needs a client.
         self.client = Client()
+        self.user = User.objects.create_user('username',
+            'user@mail.com', 'password')
 
     def test_index(self):
         # Issue a GET request.
-        response = self.client.get('/')
+        url = reverse('core.views.index')
+        response = self.client.get(url)
         # Check that the response is 200 OK.
         self.assertEqual(response.status_code, 200)
+
+    def test_login(self):
+        url = reverse('django.contrib.auth.views.login')
+        response = self.client.post(url, {
+            'username': 'username',
+            'password': 'password',
+            })
+        # Check that the response is 200 OK.
+        self.assertEqual(response.status_code, 200)
+
+    def test_add_person(self):
+        self.client.login(username='username', password='password')
+        url = reverse('core.views.index')
+        response = self.client.post(url, {
+            'name': 'Name',
+            'surname': 'Surname'
+            })
+        # Check that the response is 200 OK.
+        self.assertEqual(response.status_code, 200)
+        # Check that the Person is present in db
+        try:
+            person = Person.objects.get(name='Name', surname='Surname')
+        except Person.DoesNotExist:
+            person = None
+        self.assertiNotEqual(person, None)
 
 
 class ModelsTest(unittest.TestCase):
@@ -31,7 +61,8 @@ class ModelsTest(unittest.TestCase):
 class TemplateTagTest(unittest.TestCase):
     def test_edit_tag(self):
         client = Client()
-        resp = client.get('/')
+        url = reverse('core.views.index')
+        resp = client.get(url)
         debug_template = Template('{{settings.DEBUG}}')
         debug = debug_template.render(RequestContext(resp.request))
         self.assertNotEqual(len(debug), 0)
