@@ -35,9 +35,9 @@ class ViewsTest(unittest.TestCase):
 
         self.assertEqual(self.user.is_authenticated(), True)
 
-    def test_add_person(self):
+    def test_edit_person(self):
         self.client.login(username='username', password='password')
-        url = reverse('core.views.add_person')
+        url = reverse('core.views.edit_person')
         response = self.client.post(url, {
             'name': 'AddName',
             'surname': 'AddSurname'

@@ -4,13 +4,13 @@
 
 {% block form %} 
     {% if success %}
-        <h2>Thanks. Person is added.</h2>
+        <h2>Thanks. Person is edited.</h2>
     {% endif %}
     {% if form  %}
         <hr/>
         {{ form.media }} 
         
-        <form action="{% url core.views.add_person %}" id="add_person" 
+        <form action="{% url core.views.edit_person %}" id="add_person" 
                         name="add_person" method="post">
 
         {% if form.subject.errors %}
@@ -79,7 +79,6 @@
              
             <input type="submit" value="Save person" />
             <input type="reset" value="Cancel" />
-           
             </td>
             <td></td>
         </tr>
@@ -87,7 +86,6 @@
         {% csrf_token %}
         </form>
     {% endif %}
-
 {% endblock %}
 
 
