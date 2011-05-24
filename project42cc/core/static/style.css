@@ -10,4 +10,8 @@ body{
     display:inline;
     margin-right:25px
 }
+#add_person input[type="text"]{
+    float:right;
+    margin-right:20px;
+}
 

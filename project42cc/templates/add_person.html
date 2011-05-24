@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+
+{% block body %}
+
+{% block form %} 
+    {% if success %}
+        <h2>Thanks. Person is added.</h2>
+    {% endif %}
+    {% if form  %}
+        <hr/>
+        {{ form.media }} 
+        
+        <form action="{% url core.views.add_person %}" id="add_person" 
+                        name="add_person" method="post">
+
+        {% if form.subject.errors %}
+            <ol>
+            {% for error in form.subject.errors %}
+                <li><strong>{{ error|escape }}</strong></li>
+            {% endfor %}
+            </ol>
+        {% endif %}
+                                
+
+        <table class="table_reset">
+        <tr>
+            <td>
+                {{ form.name.errors }}
+                {{ form.name.label_tag}}:
+                {{ form.name }}
+            </td>
+            <td>
+                {{ form.email.errors }}
+                {{ form.email.label_tag}}:
+                {{ form.email }}
+            </td>
+        </tr> 
+        <tr>
+            <td>
+                {{ form.surname.errors }}
+                {{ form.surname.label_tag}}:
+                {{ form.surname }}
+            </td>
+            <td>
+                {{ form.jabber.errors }}
+                {{ form.jabber.label_tag}}:
+                {{ form.jabber }}
+            </td>
+        </tr> 
+        <tr>
+            <td>
+                {{ form.birth_date.errors }}
+                {{ form.birth_date.label_tag}}:
+                {{ form.birth_date }}
+            </td>
+            <td>
+                {{ form.skype.errors }}
+                {{ form.skype.label_tag}}:
+                {{ form.skype }}
+            </td>
+        </tr> 
+        <tr>
+            <td>
+                {{ form.bio.errors }}
+                {{ form.bio.label_tag}}:
+                <br/>
+                {{ form.bio }}
+            </td>
+            <td>
+                {{ form.other_contacts.errors }}
+                {{ form.other_contacts.label_tag}}:
+                <br/>
+                {{ form.other_contacts }}
+            </td>
+        </tr> 
+        
+        <tr>
+            <td>
+             
+            <input type="submit" value="Save person" />
+            <input type="reset" value="Cancel" />
+           
+            </td>
+            <td></td>
+        </tr>
+        </table>
+        {% csrf_token %}
+        </form>
+    {% endif %}
+
+{% endblock %}
+
+
+
+{% endblock %}
