@@ -18,10 +18,12 @@
         {% endif %}
     </ul>
     </div>
-    <br/>
-
     {% block body %} 
 
     {% endblock %}
+    <hr/>
+    <a href="{% url core.views.requests %}">requests</a>
+
+
   </body>
 </html>

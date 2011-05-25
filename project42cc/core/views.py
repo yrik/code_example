@@ -3,7 +3,7 @@ from django.template import RequestContext
 from django.contrib.auth.decorators import login_required
 
 
-from core.models import Person
+from core.models import Person, HTTP
 from core.forms import PersonForm
 
 
@@ -11,6 +11,13 @@ def index(request):
     persons = Person.objects.filter(pk=1)
     return render_to_response('index.html',
                 {'persons': persons},
+                context_instance=RequestContext(request))
+
+
+def requests(request):
+    requests = HTTP.objects.all()[:10]
+    return render_to_response('requests.html',
+                {'requests': requests},
                 context_instance=RequestContext(request))
 
 

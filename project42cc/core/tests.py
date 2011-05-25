@@ -10,7 +10,7 @@ from django.conf import settings
 
 from windmill.authoring import djangotest
 
-from core.models import Person, Log
+from core.models import Person, Log, HTTP
 
 
 class ViewsTest(unittest.TestCase):
@@ -73,6 +73,16 @@ class ViewsTest(unittest.TestCase):
             person = None
         self.assertNotEqual(person, None)
 
+    def test_requests(self):
+        # Issue a GET request.
+        url = reverse('core.views.requests')
+        response = self.client.get(url)
+        # Check that the response is 200 OK.
+        self.assertEqual(response.status_code, 200)
+
+        requests = response.context['requests']
+        self.assertNotEqual(len(requests), 0)
+
 
 class ModelsTest(unittest.TestCase):
     def test_person(self):
@@ -81,6 +91,10 @@ class ModelsTest(unittest.TestCase):
         self.assertEqual(person.name, 'name')
         self.assertEqual(person.surname, 'sur')
         self.assertEqual(person.bio, 'bio')
+
+    def test_HTTP(self):
+        http_request = HTTP.objects.create(value='test')
+        self.assertEqual(http_request.value, 'test')
 
 
 class TemplateTagTest(unittest.TestCase):
