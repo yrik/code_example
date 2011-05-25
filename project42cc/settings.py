@@ -111,6 +111,3 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'core',
 )
-
-WINDMILL_TESTS = os.path.join(SITE_ROOT, 'windmilltests')
-
