@@ -47,6 +47,16 @@ class ViewsTest(unittest.TestCase):
         self.assertEqual(self.user.is_authenticated(), True)
 
     def test_edit_person(self):
+        # Can we edit person without auth?
+        url = reverse('core.views.edit_person')
+        response = self.client.post(url, {
+            'name': 'AddName',
+            'surname': 'AddSurname'
+            })
+        # Check that the response is 200 OK.
+        self.assertNotEqual(response.status_code, 200)
+
+        # Can we edit person with logined user?
         self.client.login(username='username', password='password')
         url = reverse('core.views.edit_person')
         response = self.client.post(url, {
