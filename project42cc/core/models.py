@@ -36,6 +36,7 @@ def delete_callback(sender, instance, signal, *args, **kwargs):
     l = Log(content="object '%s' is deleted" % instance)
     l.save()
 
+
 def save_callback(sender, instance, signal, *args, **kwargs):
     if sender != Log:
         if kwargs.get('created', True):
@@ -44,5 +45,5 @@ def save_callback(sender, instance, signal, *args, **kwargs):
             l = Log(content="object '%s' is edited" % instance)
         l.save()
 
-post_save.connect(save_callback)
-post_delete.connect(delete_callback)
+post_save.connect(save_callback, dispatch_uid="core.models.save")
+post_delete.connect(delete_callback, dispatch_uid="core.models.delete")
