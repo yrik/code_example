@@ -73,6 +73,16 @@ class ViewsTest(unittest.TestCase):
             person = None
         self.assertNotEqual(person, None)
 
+    def test_requests(self):
+        # Issue a GET request.
+        url = reverse('core.views.requests')
+        response = self.client.get(url)
+        # Check that the response is 200 OK.
+        self.assertEqual(response.status_code, 200)
+
+        requests = response.context['requests']
+        self.assertNotEqual(len(requests), 0)
+
 
 class ModelsTest(unittest.TestCase):
     def test_person(self):
