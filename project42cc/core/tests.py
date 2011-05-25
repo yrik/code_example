@@ -26,6 +26,13 @@ class ViewsTest(unittest.TestCase):
         # Check that the response is 200 OK.
         self.assertEqual(response.status_code, 200)
 
+        try:
+            person = response.context['persons'][0]
+            is_person = isinstance(person, Person)
+        except:
+            is_person = False
+        self.assertEqual(is_person, True)
+
     def test_login(self):
         url = reverse('django.contrib.auth.views.login')
         self.client.post(url, {

@@ -1,17 +1,54 @@
 {% extends 'base.html' %}
 
 {% block body %}
-{% for person in persons %}
-    {% for name, value in person.get_fields %}
-        {% if value %}
-            {{ name }} => {{ value }} <br/>
-        {% endif %}
-    {% endfor %}
-{% endfor %}
 
 {% block form %} 
 {% endblock %}
 
 
 
+{% for person in persons %}
+
+        <table id ="show_person" class="table_reset">
+        <tr>
+            <td>
+                {{ person.name }}
+            </td>
+            <td>
+                email:
+                {{ person.email }}
+            </td>
+        </tr> 
+        <tr>
+            <td>
+                {{ person.surname }}
+            </td>
+            <td>
+                jabber:
+                {{ person.jabber }}
+            </td>
+        </tr> 
+        <tr>
+            <td>
+                {{ person.birth_date }}
+            </td>
+            <td>
+                skype:
+                {{ person.skype }}
+            </td>
+        </tr> 
+        <tr>
+            <td>
+                Bio:
+                <br/>
+                {{ person.bio }}
+            </td>
+            <td>
+                Other contacts:
+                <br/>
+                {{ person.other_contacts }}
+            </td>
+        </tr> 
+        </table>
+{% endfor %}
 {% endblock %}
