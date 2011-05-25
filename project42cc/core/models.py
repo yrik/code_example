@@ -32,6 +32,13 @@ class Log(models.Model):
         return '%s at %s' % (self.content, self.date)
 
 
+class HTTP(models.Model):
+    value = models.TextField(null=True, blank=True)
+
+    def __unicode__(self):
+        return '%s' % self.value
+
+
 def delete_callback(sender, instance, signal, *args, **kwargs):
     l = Log(content="object '%s' is deleted" % instance)
     l.save()
