@@ -1,3 +1,4 @@
+import os
 from StringIO import StringIO
 from django.core.management import call_command
 from django.utils import unittest
@@ -5,6 +6,9 @@ from django.test.client import Client
 from django.template import Template, Context, RequestContext
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
+from django.conf import settings
+
+from windmill.authoring import djangotest
 
 from core.models import Person, Log
 
@@ -25,6 +29,13 @@ class ViewsTest(unittest.TestCase):
         response = self.client.get(url)
         # Check that the response is 200 OK.
         self.assertEqual(response.status_code, 200)
+
+        try:
+            person = response.context['persons'][0]
+            is_person = isinstance(person, Person)
+        except:
+            is_person = False
+        self.assertEqual(is_person, True)
 
     def test_login(self):
         url = reverse('django.contrib.auth.views.login')
@@ -108,3 +119,17 @@ class SignalTest(unittest.TestCase):
         Person.objects.create(name='Name', surname='Surname')
         next_count = len(Log.objects.all())
         self.assertNotEqual(next_count - prev_count, 0)
+
+
+wmtests = settings.WINDMILL_TESTS
+
+for name in os.listdir(wmtests):
+    if name.startswith("test") and name.endswith(".py"):
+        testname = name[:-3]
+
+        class WindmillTest(djangotest.WindmillDjangoUnitTest):
+            test_dir = os.path.join(wmtests, name)
+            browser = "firefox"
+        WindmillTest.__name__ = testname
+        globals()[testname] = WindmillTest
+        del WindmillTest

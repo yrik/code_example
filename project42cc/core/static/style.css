@@ -15,3 +15,6 @@ body{
     margin-right:20px;
 }
 
+#show_person tr td{
+    min-width:150px;
+}
