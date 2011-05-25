@@ -15,6 +15,12 @@ class ViewsTest(unittest.TestCase):
         response = self.client.get('/')
         # Check that the response is 200 OK.
         self.assertEqual(response.status_code, 200)
+        try:
+            person = response.context['persons'][0]
+            is_person = isinstance(person, Person)
+        except:
+            is_person = False
+        self.assertEqual(is_person, True)
 
 
 class ModelsTest(unittest.TestCase):
