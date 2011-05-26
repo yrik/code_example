@@ -10,7 +10,7 @@
         <hr/>
         {{ form.media }} 
         
-        <form action="{% url core.views.edit_person %}" id="add_person" 
+        <form action="{% url core.views.edit_person %}" id="edit_person_form" 
                         name="add_person" method="post">
 
         {% if form.subject.errors %}

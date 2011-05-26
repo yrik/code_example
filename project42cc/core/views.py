@@ -1,6 +1,8 @@
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.contrib.auth.decorators import login_required
+from django.utils import simplejson
+from django.http import HttpResponse
 
 
 from core.models import Person, HTTP
@@ -25,12 +27,27 @@ def requests(request):
 def edit_person(request):
     success = False
     person = Person.objects.get(pk=1)
+
     if request.method == 'POST':  # If the form has been submitted...
         # A  form bound to the POST data
         form = PersonForm(request.POST,  instance=person)
         if form.is_valid():  # All validation rules pass
             form.save()
             success = True
+
+        if request.is_ajax():
+            result = {'success': success}
+            data = form.data
+            result.update({'data': data})
+            if not success:
+                d = {}
+                for e in form.errors.iteritems():
+                    d.update({e[0]: unicode(e[1])})
+                result.update({'errors': d})
+
+            json = simplejson.dumps(result, ensure_ascii=False)
+            return HttpResponse(json, mimetype='application/javascript')
+
     else:
         form = PersonForm(instance=person)  # An unbound form
 
