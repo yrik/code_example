@@ -1,11 +1,13 @@
 from django.forms import ModelForm
 
 from core.models import Person
+from core.widgets import CalendarWidget
 
 
 class PersonForm(ModelForm):
     class Meta:
         model = Person
+        widgets = {'birth_date':  CalendarWidget}
 
     class Media:
         js = (
