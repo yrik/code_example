@@ -48,4 +48,4 @@ def test_recordingSuite2():
     client.click(id=u'id_name')
     client.type(text=u'', id=u'id_name')
     client.click(value=u'Save person')
-    client.click(xpath=u"//span[@id='id_name_errror']/ul/li")
+    #client.click(xpath=u"//span[@id='id_name_errror']/ul/li")
