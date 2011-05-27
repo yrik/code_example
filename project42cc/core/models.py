@@ -27,6 +27,12 @@ class Person(models.Model):
 
 
 class Log(models.Model):
+    PC = (
+        (0, 'low'),
+        (1, 'normal'),
+        (2, 'high'),
+    )
+    priority = models.IntegerField(choices=PC, default=0)
     content = models.TextField(null=True, blank=True)
     date = models.DateTimeField(null=True, blank=True, auto_now=True)
 
