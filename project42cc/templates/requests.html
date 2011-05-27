@@ -4,7 +4,9 @@
 
 <pre>
 {% for request in requests %}
-    {{request}}
+    {% for key, value in request.value.items %}
+        REQUEST["{{key}}"] = {{value}}
+    {% endfor %}
     <hr/>
 {% endfor %}
 </pre>

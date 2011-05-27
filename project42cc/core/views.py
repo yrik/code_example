@@ -15,7 +15,7 @@ def index(request):
 
 
 def requests(request):
-    requests = HTTP.objects.all()[:10]
+    requests = HTTP.objects.all().order_by('id').reverse()[:10]
     return render_to_response('requests.html',
                 {'requests': requests},
                 context_instance=RequestContext(request))
