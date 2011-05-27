@@ -2,9 +2,9 @@ $(document).ready(function(){
      options = {
         dataType:  'json', 
         success:function(data){
-            processJson(data)
             $("#edit_person textarea, select, input").attr('disabled','')
             $('#load').hide()
+            processJson(data)
         },
         beforeSubmit: function(){
             $("#edit_person  textarea, select, input").attr('disabled','disabled')
@@ -28,13 +28,11 @@ $(document).ready(function(){
              {   
                  id = "#id_" + fieldname;
                  iderr =  "id_" + fieldname + '_errror';
-                 console.log(iderr)
  
                  if ($('#' + iderr).length == 0){ 
                      $(id).parent().after($("<span class='errors' id='"+iderr+"'></span>"));    
                  }   
                  $('#'+iderr).html( errmsg );
-                 console.log(errmsg)
              })  
              $("#form textarea, select, input").attr('disabled','')
  
