@@ -96,6 +96,10 @@ class ModelsTest(unittest.TestCase):
         http_request = HTTP.objects.create(value='test')
         self.assertEqual(http_request.value, 'test')
 
+    def test_Log(self):
+        log = Log.objects.create(priority=1)
+        self.assertEqual(log.priority, 1)
+
 
 class TemplateTagTest(unittest.TestCase):
     def test_edit_tag(self):
