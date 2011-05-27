@@ -1,6 +1,8 @@
 from django.db.models.signals import post_save, post_delete
 from django.db import models
 
+from picklefield.fields import PickledObjectField
+
 
 class Person(models.Model):
     """
@@ -33,7 +35,8 @@ class Log(models.Model):
 
 
 class HTTP(models.Model):
-    value = models.TextField(null=True, blank=True)
+    value = PickledObjectField()
+    #models.TextField(null=True, blank=True)
 
     def __unicode__(self):
         return '%s' % self.value
